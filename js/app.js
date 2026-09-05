@@ -319,6 +319,13 @@ function renderVisual(v) {
     </div>`;
   }
 
+  if (v.kind === "story") {
+    return `<div class="story">
+      ${v.title ? `<div class="story-title">${v.title}</div>` : ""}
+      ${v.lines.map((l) => `<p>${l}</p>`).join("")}
+    </div>`;
+  }
+
   if (v.kind === "chart") {
     const max = Math.max(...v.bars.map((b) => b.v));
     const warna = ["#1cb0f6", "#58cc02", "#ffc800", "#ce82ff", "#ff9600", "#ff4b4b"];

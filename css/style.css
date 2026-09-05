@@ -318,6 +318,20 @@ body{
 .jar{width:44px;text-align:center;font-size:30px;line-height:1;animation:pop .3s backwards}
 .jar span{display:block;font-size:10px;font-weight:900;color:var(--ink-soft);margin-top:-2px}
 
+/* ---------- Kartu cerita untuk soal pemahaman bacaan ---------- */
+.story{
+  background:linear-gradient(#fffdf5,#fff7e6);
+  border:2px solid #ffe1a8;border-radius:var(--r);padding:12px 14px
+}
+.story-title{
+  font-family:var(--font-fun);font-size:17px;text-align:center;
+  color:#8a6100;margin-bottom:8px
+}
+.story p{
+  margin:0 0 5px;font-size:14px;font-weight:700;line-height:1.5;color:#5a4a2a
+}
+.story p:last-child{margin-bottom:0}
+
 /* ---------- Tabel nilai tempat ---------- */
 .pv-table{
   width:100%;border-collapse:separate;border-spacing:0;border-radius:12px;
