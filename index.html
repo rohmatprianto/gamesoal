@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#58cc02">
+<title>Petualangan Bilangan - Matematika Kelas 2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ============ LAYAR PEMBUKA ============ -->
+<section id="screen-home" class="screen active">
+  <div class="home-wrap">
+   <div class="home-inner">
+    <div class="mascot-stage">
+      <div id="mascot-home"></div>
+      <div class="speech">Halo! Ayo main bersamaku!</div>
+    </div>
+    <h1 class="app-title">Petualangan<br><span>Bilangan</span></h1>
+    <p class="app-sub">Belajar sambil bermain &middot; Kelas 2 SD</p>
+
+    <div class="chip-row">
+      <span class="chip">Kelas 2 SD</span>
+      <span class="chip">3 Tingkat Tantangan</span>
+      <span class="chip">Bermain sambil belajar</span>
+    </div>
+
+    <div class="subject-label">Pilih Pelajaran</div>
+    <div class="subject-list" id="subject-list"></div>
+
+    <button class="btn btn-ghost" id="btn-materi">Lihat Materi</button>
+
+    <!-- Pengatur backsound murotal -->
+    <div class="audio-card">
+      <div class="audio-head">
+        <button class="audio-toggle" id="bgm-toggle" aria-label="Nyalakan atau matikan murotal">🔊</button>
+        <div class="audio-meta">
+          <div class="audio-title">Murotal Anak</div>
+          <div class="audio-track" id="bgm-track">memuat…</div>
+        </div>
+        <button class="audio-skip" id="bgm-next" aria-label="Murotal berikutnya" hidden>⏭</button>
+      </div>
+      <input type="range" id="bgm-vol" class="vol" min="0" max="100" step="1" value="35"
+             aria-label="Volume murotal">
+      <div class="audio-note" id="bgm-note" hidden>
+        Letakkan berkas <b>.mp3</b> di folder <b>audio/</b> dengan nama
+        <b>murotal-1.mp3</b>, atau
+        <button class="linkbtn" id="bgm-pick">pilih dari perangkat</button>.
+      </div>
+      <input type="file" id="bgm-file" accept="audio/*" hidden>
+    </div>
+
+    <div class="best-score" id="best-score" hidden></div>
+   </div>
+  </div>
+</section>
+
+<!-- ============ PILIH TINGKAT ============ -->
+<section id="screen-level" class="screen">
+  <header class="topbar simple">
+    <button class="icon-btn" id="btn-level-back" aria-label="Kembali">&#10005;</button>
+    <h2 class="topbar-title">Pilih Tingkat</h2>
+  </header>
+  <main class="level-wrap">
+    <div id="mascot-level"></div>
+    <p class="level-sub" id="level-subject"></p>
+    <button class="level-card easy" data-level="easy">
+      <span class="level-ico">&#127807;</span><span><b>Easy</b><small>10 nyawa &middot; 60 detik per soal</small></span><span>›</span>
+    </button>
+    <button class="level-card normal" data-level="normal">
+      <span class="level-ico">&#128170;</span><span><b>Normal</b><small>5 nyawa &middot; 40 detik per soal</small></span><span>›</span>
+    </button>
+    <button class="level-card hard" data-level="hard">
+      <span class="level-ico">&#128293;</span><span><b>Hard</b><small>5 nyawa &middot; 20 detik per soal</small></span><span>›</span>
+    </button>
+    <p class="level-note">Soal yang sesuai tingkat diprioritaskan. Satu sesi berisi 20 soal.</p>
+  </main>
+</section>
+
+<!-- ============ LAYAR MATERI ============ -->
+<section id="screen-materi" class="screen">
+  <header class="topbar simple">
+    <button class="icon-btn" id="btn-materi-back" aria-label="Kembali">&#10005;</button>
+    <h2 class="topbar-title" id="materi-title">Materi yang Dipelajari</h2>
+  </header>
+  <div class="materi-list" id="materi-list"></div>
+  <div class="bottom-bar static">
+    <button class="btn btn-primary" id="btn-materi-start">MULAI SEKARANG</button>
+  </div>
+</section>
+
+<!-- ============ LAYAR KUIS ============ -->
+<section id="screen-quiz" class="screen">
+  <header class="topbar">
+    <button class="icon-btn" id="btn-quit" aria-label="Keluar">&#10005;</button>
+    <div class="progress"><div class="progress-fill" id="progress-fill"></div><div class="progress-shine"></div></div>
+    <div class="hearts" id="hearts"></div>
+  </header>
+
+  <div class="timer"><div class="timer-fill" id="timer-fill"></div></div>
+
+  <main class="quiz-body">
+    <div class="q-head">
+      <span class="q-tag" id="q-tag">Nilai Tempat</span>
+      <span class="q-right">
+        <span class="q-timer" id="q-timer" aria-label="Sisa waktu">60</span>
+        <span class="q-count" id="q-count">1/20</span>
+      </span>
+    </div>
+    <h2 class="q-text" id="q-text"></h2>
+    <div class="q-stage" id="q-stage"></div>
+  </main>
+
+  <div class="bottom-bar" id="bottom-bar">
+    <button class="btn btn-primary" id="btn-check" disabled>PERIKSA</button>
+  </div>
+
+  <div class="flash" id="flash"></div>
+
+  <!-- Efek bom saat waktu soal habis -->
+  <div class="boom" id="boom" aria-hidden="true">
+    <div class="boom-flash"></div>
+    <div class="boom-ring"></div>
+    <div class="boom-ico bomb">💣</div>
+    <div class="boom-ico blastico">💥</div>
+  </div>
+
+  <div class="feedback" id="feedback">
+    <div class="fb-inner">
+      <div class="fb-head">
+        <div class="fb-icon" id="fb-icon"></div>
+        <div>
+          <div class="fb-title" id="fb-title"></div>
+          <div class="fb-desc" id="fb-desc"></div>
+        </div>
+      </div>
+      <button class="btn" id="btn-next">LANJUT</button>
+    </div>
+  </div>
+
+  <div class="combo-toast" id="combo-toast"></div>
+</section>
+
+<!-- ============ LAYAR SELESAI ============ -->
+<section id="screen-done" class="screen">
+  <div class="done-wrap">
+    <div id="mascot-done"></div>
+    <h1 class="done-title" id="done-title">Kerja Bagus!</h1>
+    <div class="stars" id="stars"></div>
+    <div class="stat-grid">
+      <div class="stat stat-xp"><div class="stat-label">Total XP</div><div class="stat-val" id="stat-xp">0</div></div>
+      <div class="stat stat-acc"><div class="stat-label">Ketepatan</div><div class="stat-val" id="stat-acc">0%</div></div>
+      <div class="stat stat-combo"><div class="stat-label">Rentetan</div><div class="stat-val" id="stat-combo">0</div></div>
+    </div>
+    <div class="review-box" id="review-box"></div>
+    <div class="leaderboard" id="leaderboard-done"></div>
+    <button class="btn btn-primary btn-big" id="btn-again">MAIN LAGI</button>
+    <button class="btn btn-ghost" id="btn-home">Kembali ke Beranda</button>
+  </div>
+</section>
+
+<!-- ============ SIMPAN HASIL ============ -->
+<section id="screen-name" class="screen">
+  <div class="name-wrap">
+    <div id="mascot-name"></div>
+    <h1 class="done-title">Bagus sekali!</h1>
+    <p class="name-sub">Masukkan namamu untuk masuk peringkat <b id="name-subject"></b>.</p>
+    <form id="name-form" class="name-form">
+      <label for="player-name">Nama pemain</label>
+      <input id="player-name" maxlength="24" autocomplete="name" required placeholder="Contoh: Aisyah">
+      <button class="btn btn-primary btn-big" type="submit">SIMPAN HASIL</button>
+    </form>
+    <div class="leaderboard" id="leaderboard"></div>
+  </div>
+</section>
+
+<canvas id="confetti"></canvas>
+
+<script src="js/questions.js"></script>
+<script src="js/questions-bindo.js"></script>
+<script src="js/questions-pancasila.js"></script>
+<script src="js/bgm.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
