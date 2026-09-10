@@ -249,16 +249,31 @@ function pickSession(bank, n) {
   return shuffle(dipilih).slice(0, n);
 }
 
+/* Menyusun satu sesi sesuai tingkat yang dipilih.
+
+   Sesi diisi tingkat demi tingkat: soal pada tingkat terpilih
+   diambil sebanyak-banyaknya lebih dulu, dan hanya kekurangannya
+   yang ditambal dari tingkat terdekat. Penjatahan per materi tetap
+   berlaku di dalam masing-masing tingkat.
+
+   Cara ini penting karena kalau semua tingkat dilebur dulu menjadi
+   satu kumpulan kandidat, easy dan normal akan menghasilkan kumpulan
+   yang sama persis sehingga kedua tingkat itu tidak terasa berbeda. */
 function pickSessionForDifficulty(bank, difficulty) {
   const order = difficulty === "easy" ? ["easy", "normal", "hard"]
     : difficulty === "hard" ? ["hard", "normal", "easy"]
     : ["normal", "easy", "hard"];
-  const candidates = [];
+
+  const dipilih = [];
   for (const level of order) {
-    candidates.push(...bank.filter((q) => questionDifficulty(q) === level));
-    if (candidates.length >= PER_SESSION) break;
+    const kurang = PER_SESSION - dipilih.length;
+    if (kurang <= 0) break;
+    const tingkat = bank.filter((q) => questionDifficulty(q) === level);
+    if (!tingkat.length) continue;
+    pickSession(tingkat, kurang).forEach((i) => dipilih.push(tingkat[i]));
   }
-  return pickSession(candidates, PER_SESSION).map((i) => bank.indexOf(candidates[i]));
+
+  return shuffle(dipilih).map((q) => bank.indexOf(q));
 }
 
 const S = {

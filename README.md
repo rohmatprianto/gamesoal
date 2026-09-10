@@ -5,7 +5,7 @@ rentetan jawaban benar, umpan balik instan, dan konfeti.
 
 | Pelajaran | Bank soal | Materi |
 |---|---|---|
-| 🔢 Matematika | 20 soal | Bilangan cacah sampai 1.000 |
+| 🔢 Matematika | 42 soal | Menghitung benda, nama bilangan, nilai tempat, bentuk panjang, membandingkan, mengurutkan, pola bilangan |
 | 📚 Bahasa Indonesia | 54 soal | Perasaan, memahami cerita, huruf kapital, kata tanya, kalimat, grafik, hidup sehat |
 | 🦅 Pancasila | 42 soal | Garuda, simbol & makna sila, menebak sila, pengamalan, kosakata |
 | 🕌 Agama Islam | 44 soal | Asmaulhusna, bukti & teladannya, zikir, akhlak, Surah Al-'Asr |
@@ -52,6 +52,7 @@ sebagai "Segera" dan belum bisa diketuk.
 | Soal salah | otomatis diulang di akhir sesi, satu kali |
 | Pemilihan soal | satu soal per materi dijamin ikut, sisanya diundi |
 | Tingkat soal | dari `level` pada soal; bank lama memakai perkiraan dari nama materi |
+| Isi sesi | soal tingkat terpilih diambil sebanyak-banyaknya, kekurangannya ditambal dari tingkat terdekat |
 | Peringkat | 10 skor XP tertinggi per mata pelajaran, disimpan di browser perangkat |
 | Bintang | 3 ⭐ ≥ 90%, 2 ⭐ ≥ 70%, selain itu 1 ⭐ |
 
