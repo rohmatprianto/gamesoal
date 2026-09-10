@@ -6,8 +6,9 @@ rentetan jawaban benar, umpan balik instan, dan konfeti.
 | Pelajaran | Bank soal | Materi |
 |---|---|---|
 | 🔢 Matematika | 20 soal | Bilangan cacah sampai 1.000 |
-| 📚 Bahasa Indonesia | 25 soal | Huruf kapital, kata tanya, kalimat, grafik, perasaan, makanan sehat |
+| 📚 Bahasa Indonesia | 54 soal | Perasaan, memahami cerita, huruf kapital, kata tanya, kalimat, grafik, hidup sehat |
 | 🦅 Pancasila | 42 soal | Garuda, simbol & makna sila, menebak sila, pengamalan, kosakata |
+| 🕌 Agama Islam | 44 soal | Asmaulhusna, bukti & teladannya, zikir, akhlak, Surah Al-'Asr |
 
 Setiap sesi mengambil **20 soal acak** dari bank pelajaran yang dipilih.
 
@@ -30,6 +31,7 @@ css/style.css              tema warna, komponen, animasi
 js/questions.js            daftar pelajaran (buildSubjects) + bank Matematika
 js/questions-bindo.js      bank Bahasa Indonesia
 js/questions-pancasila.js  bank Pancasila
+js/questions-pai.js        bank Agama Islam
 js/app.js                  mesin permainan: render, penilaian, nyawa, XP, konfeti
 ```
 
@@ -49,6 +51,7 @@ sebagai "Segera" dan belum bisa diketuk.
 | XP | 10 + bonus rentetan (maks +5) untuk jawaban benar pertama kali, 5 untuk soal ulangan |
 | Soal salah | otomatis diulang di akhir sesi, satu kali |
 | Pemilihan soal | satu soal per materi dijamin ikut, sisanya diundi |
+| Tingkat soal | dari `level` pada soal; bank lama memakai perkiraan dari nama materi |
 | Peringkat | 10 skor XP tertinggi per mata pelajaran, disimpan di browser perangkat |
 | Bintang | 3 ⭐ ≥ 90%, 2 ⭐ ≥ 70%, selain itu 1 ⭐ |
 
@@ -69,6 +72,7 @@ sebagai "Segera" dan belum bisa diketuk.
 - `{ kind: "jars",   h, t, o }` — toples 100, kantong 10, butiran satuan
 - `{ kind: "pvtable", digits: [3,1,7] }` atau `{ kind: "pvtable", rows: [[6,2,3],[6,3,2]] }`
 - `{ kind: "chart", title, bars: [{ nm, v, ico }] }` — diagram batang
+- `{ kind: "story", title, lines: [...] }` — kartu bacaan untuk soal pemahaman
 
 ### Contoh menambah soal
 

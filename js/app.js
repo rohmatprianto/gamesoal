@@ -202,6 +202,9 @@ const DIFFICULTIES = {
 /* Klasifikasi awal bank soal. Soal pada tingkat terpilih selalu diutamakan;
    bila jumlahnya belum 20, soal tingkat terdekat dipakai sebagai pelengkap. */
 function questionDifficulty(q) {
+  // bank soal yang lebih baru menuliskan tingkatnya langsung pada soal
+  if (q.level === "easy" || q.level === "normal" || q.level === "hard") return q.level;
+
   const hardTags = ["Soal HOTS", "Menyusun Cerita", "Membaca Grafik", "Menebak Sila", "Pengamalan di Sekolah"];
   const normalTags = ["Membandingkan", "Mengurutkan", "Pola Bilangan", "Menyusun Kalimat Tanya", "Kalimat SPO", "Bunyi Sila", "Kosakata", "Pengamalan di Rumah"];
   if (hardTags.includes(q.tag)) return "hard";

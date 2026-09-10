@@ -49,8 +49,17 @@ function buildSubjects() {
       nm: "Pancasila",
       ds: "Simbol, sila, aturan, dan hidup rukun",
       warna: "purple",
-      bank: SOAL_PANCASILA,    // masih kosong -> tombol tampil "Segera"
+      bank: SOAL_PANCASILA,
       materi: MATERI_PANCASILA
+    },
+    {
+      id: "pai",
+      ico: "🕌",
+      nm: "Agama Islam",
+      ds: "Asmaulhusna, zikir, dan akhlak mulia",
+      warna: "orange",
+      bank: SOAL_PAI,
+      materi: MATERI_PAI
     }
   ];
 }
