@@ -1,7 +1,7 @@
 # Petualangan Bilangan 🦉
 
 Aplikasi latihan soal untuk **Kelas 2 SD**, dikemas seperti Duolingo: nyawa, XP,
-rentetan jawaban benar, umpan balik instan, konfeti, dan backsound murotal.
+rentetan jawaban benar, umpan balik instan, dan konfeti.
 
 | Pelajaran | Bank soal | Materi |
 |---|---|---|
@@ -30,53 +30,13 @@ css/style.css              tema warna, komponen, animasi
 js/questions.js            daftar pelajaran (buildSubjects) + bank Matematika
 js/questions-bindo.js      bank Bahasa Indonesia
 js/questions-pancasila.js  bank Pancasila
-js/bgm.js                  pemutar backsound murotal + pengatur volume
 js/app.js                  mesin permainan: render, penilaian, nyawa, XP, konfeti
-audio/                     berkas murotal (.mp3)
 ```
 
 **Menambah pelajaran baru:** buat berkas bank soalnya sendiri, muat lewat
 `<script>` di `index.html`, lalu tambahkan satu objek di `buildSubjects()`
 pada `js/questions.js`. Pelajaran yang banknya masih kosong otomatis tampil
 sebagai "Segera" dan belum bisa diketuk.
-
-## Backsound murotal
-
-Aplikasi memutar murotal secara berulang selama dimainkan, dan volumenya
-diatur dari kartu **Murotal Anak** di halaman awal.
-
-Tiga berkas sudah terpasang di folder `audio/` dan langsung bisa dipakai:
-
-| Berkas | Surah | Durasi | Ukuran |
-|---|---|---|---|
-| `murotal-1.mp3` | Al-Muzzammil | 4:19 | 2,0 MB |
-| `murotal-2.mp3` | Nuh | 4:58 | 2,3 MB |
-| `murotal-3.mp3` | Al-Mulk | 7:26 | 3,5 MB |
-
-Qari Syaikh Ali Bashfar, diambil dari archive.org yang menandainya public
-domain. **Ini murottal dewasa bertempo tenang, bukan suara anak-anak** —
-rekaman yang benar-benar dibacakan anak tidak ada yang menyertakan pernyataan
-lisensi, jadi tidak ikut dibundel. Latar belakang dan cara menggantinya
-dijelaskan di `audio/BACA-DULU.txt`.
-
-**Mengganti:** timpa saja berkasnya dengan nama yang sama, lalu sesuaikan
-nama tampilan di daftar `tracks` pada `js/bgm.js`. Kalau folder `audio/`
-dikosongkan, halaman awal menampilkan tombol **pilih dari perangkat** untuk
-memakai mp3 mana pun dari komputer.
-
-Yang sudah diurus otomatis:
-
-- **Slider volume** 0–100%, disimpan di `localStorage` jadi tidak perlu diatur
-  ulang. Digeser ke 0 = otomatis mati; tombol 🔊 untuk bisu/nyala cepat.
-- **Ducking** — murotal mengecil ke ~25% saat efek suara benar/salah berbunyi,
-  lalu naik lagi dengan halus, supaya bacaannya tidak bertabrakan dengan efek.
-- **Aturan autoplay browser** — musik menyala pada ketukan pertama pengguna,
-  bukan saat halaman dimuat (kalau tidak, browser memblokirnya).
-- **Hemat baterai** — otomatis jeda saat tab disembunyikan.
-- Daftar putar dengan tombol ⏭ kalau berkasnya lebih dari satu.
-
-Menyetel di `js/bgm.js`: daftar `tracks` (nama & berkas), dan `BGM.duck(level, ms)`
-untuk mengubah seberapa dalam murotal mengecil saat efek suara berbunyi.
 
 ## Aturan main
 
@@ -162,7 +122,7 @@ Menyetel efek ada di `js/app.js`:
 
 - Tanpa dependensi. Hanya font Google (Baloo 2 + Nunito) dari CDN; tanpa internet
   aplikasi tetap jalan memakai font sistem.
-- Efek suara dibuat langsung dengan Web Audio API, jadi tidak ada file audio.
-  Audio baru menyala setelah ketukan pertama (aturan autoplay browser).
+- Efek suara dibuat langsung dengan Web Audio API, jadi tidak ada satu pun
+  berkas audio. Aplikasi berjalan tanpa musik latar.
 - XP terbaik disimpan di `localStorage` (`pb_best`).
 - Bisa dimainkan dengan sentuhan maupun papan ketik (angka, Backspace, Enter).

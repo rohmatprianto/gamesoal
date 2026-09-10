@@ -458,7 +458,6 @@ function onTimeout() {
 
   revealAnswer(S.q);
   boom();
-  BGM.duck(0.18, 2000);
 
   S.combo = 0;
   S.hearts--;
@@ -935,7 +934,6 @@ function failShake() {
 
 function onCorrect() {
   Sfx.correct();
-  BGM.duck(0.28, 900);
   S.combo++;
   S.maxCombo = Math.max(S.maxCombo, S.combo);
   const firstTry = !S.retried[S.qIndex];
@@ -958,7 +956,6 @@ function onCorrect() {
 
 function onWrong() {
   Sfx.wrong();
-  BGM.duck(0.22, 1100);
   failShake();
   S.combo = 0;
   S.hearts--;
@@ -1089,7 +1086,6 @@ function completeSession(name) {
 
   show("screen-done");
   renderLeaderboard("#leaderboard-done");
-  BGM.duck(0.18, won ? 2600 : 2000);
   if (won) {
     Sfx.win();
     Confetti.celebrate();
@@ -1379,7 +1375,6 @@ function renderMateri() {
    PEMASANGAN AWAL
    ------------------------------------------------------------ */
 function init() {
-  BGM.init();
   SUBJECTS = buildSubjects();
   S.subject = SUBJECTS.find((s) => s.bank && s.bank.length) || SUBJECTS[0];
   $("#mascot-home").innerHTML = mascotSVG("happy");
