@@ -26,7 +26,7 @@ python -m http.server 8080
 ## Struktur
 
 ```
-index.html                 kerangka layar: beranda, tingkat, materi, kuis, nama, hasil
+index.html                 kerangka layar: beranda, peringkat, tingkat, materi, kuis, nama, hasil
 css/style.css              tema warna, komponen, animasi
 js/questions.js            daftar pelajaran (buildSubjects) + bank Matematika
 js/questions-bindo.js      bank Bahasa Indonesia
@@ -54,6 +54,7 @@ sebagai "Segera" dan belum bisa diketuk.
 | Tingkat soal | dari `level` pada soal; bank lama memakai perkiraan dari nama materi |
 | Isi sesi | soal tingkat terpilih diambil sebanyak-banyaknya, kekurangannya ditambal dari tingkat terdekat |
 | Peringkat | 10 skor XP tertinggi per mata pelajaran, disimpan di browser perangkat |
+| Papan peringkat | halaman tersendiri berisi peringkat semua pelajaran, dibuka lewat tombol di beranda atau tautan `index.html#peringkat` |
 | Bintang | 3 ⭐ ≥ 90%, 2 ⭐ ≥ 70%, selain itu 1 ⭐ |
 
 ## Tipe soal yang didukung

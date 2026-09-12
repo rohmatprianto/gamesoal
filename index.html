@@ -33,6 +33,7 @@
     <div class="subject-list" id="subject-list"></div>
 
     <button class="btn btn-ghost" id="btn-materi">Lihat Materi</button>
+    <button class="btn btn-ghost" id="btn-rank">🏆 Papan Peringkat</button>
 
     <div class="best-score" id="best-score" hidden></div>
    </div>
@@ -59,6 +60,30 @@
     </button>
     <p class="level-note">Soal yang sesuai tingkat diprioritaskan. Satu sesi berisi 20 soal.</p>
   </main>
+</section>
+
+<!-- ============ PAPAN PERINGKAT ============ -->
+<section id="screen-rank" class="screen">
+  <header class="topbar simple">
+    <button class="icon-btn" id="btn-rank-back" aria-label="Kembali">&#10005;</button>
+    <h2 class="topbar-title">🏆 Papan Peringkat</h2>
+  </header>
+
+  <div class="rank-wrap">
+    <div class="rank-list" id="rank-list"></div>
+
+    <div class="rank-share">
+      <label for="rank-link">Tautan langsung ke halaman ini</label>
+      <div class="rank-share-row">
+        <input id="rank-link" readonly aria-label="Tautan papan peringkat">
+        <button class="btn btn-copy" id="btn-rank-copy" type="button">SALIN</button>
+      </div>
+      <p class="rank-note" id="rank-note">
+        Peringkat tersimpan di browser perangkat ini. Tautan membuka halaman
+        peringkat, bukan memindahkan datanya ke perangkat lain.
+      </p>
+    </div>
+  </div>
 </section>
 
 <!-- ============ LAYAR MATERI ============ -->

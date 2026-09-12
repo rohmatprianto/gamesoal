@@ -1118,13 +1118,13 @@ function completeSession(name) {
   }
 }
 
-function leaderboardKey() {
-  return `pb_leaderboard_${S.subject.id}`;
+function leaderboardKey(subjectId) {
+  return `pb_leaderboard_${subjectId || S.subject.id}`;
 }
 
-function getLeaderboard() {
+function getLeaderboard(subjectId) {
   try {
-    const scores = JSON.parse(localStorage.getItem(leaderboardKey()) || "[]");
+    const scores = JSON.parse(localStorage.getItem(leaderboardKey(subjectId)) || "[]");
     return Array.isArray(scores) ? scores : [];
   } catch (_) {
     return [];
@@ -1137,16 +1137,85 @@ function escapeHtml(value) {
   return div.innerHTML;
 }
 
+/* satu baris peringkat, dipakai layar hasil maupun papan peringkat */
+function rankRows(scores) {
+  return scores.map((score, i) =>
+    `<div class="rank-row"><span>${i + 1}.</span><strong>${escapeHtml(score.name)}</strong><small>${score.xp} XP · ${score.acc}% · ${DIFFICULTIES[score.difficulty]?.label || "Normal"}</small></div>`
+  ).join("");
+}
+
 function renderLeaderboard(target = "#leaderboard") {
   const scores = getLeaderboard();
-  const box = $(target);
-  if (!scores.length) {
-    box.innerHTML = '<h2>🏆 Peringkat 10 Besar</h2><p class="rank-empty">Jadilah pemain pertama di daftar ini!</p>';
-    return;
+  $(target).innerHTML = scores.length
+    ? `<h2>🏆 Peringkat 10 Besar ${escapeHtml(S.subject.nm)}</h2>${rankRows(scores)}`
+    : '<h2>🏆 Peringkat 10 Besar</h2><p class="rank-empty">Jadilah pemain pertama di daftar ini!</p>';
+}
+
+/* ------------------------------------------------------------
+   PAPAN PERINGKAT
+   Halaman tersendiri berisi peringkat seluruh pelajaran, dan
+   bisa dibuka langsung lewat tautan berakhiran #peringkat.
+   ------------------------------------------------------------ */
+const RANK_HASH = "#peringkat";
+
+function rankUrl() {
+  return location.href.split("#")[0] + RANK_HASH;
+}
+
+function renderRankPage() {
+  $("#rank-list").innerHTML = SUBJECTS.map((subj) => {
+    const scores = getLeaderboard(subj.id);
+    return `<section class="rank-card ${subj.warna || "green"}">
+      <h2>${subj.ico} ${escapeHtml(subj.nm)}</h2>
+      ${scores.length
+        ? rankRows(scores)
+        : '<p class="rank-empty">Belum ada yang masuk peringkat. Ayo jadi yang pertama!</p>'}
+    </section>`;
+  }).join("");
+  $("#rank-link").value = rankUrl();
+}
+
+function openRankPage() {
+  renderRankPage();
+  if (location.hash !== RANK_HASH) history.replaceState(null, "", RANK_HASH);
+  show("screen-rank");
+}
+
+function closeRankPage() {
+  // tautan dibersihkan supaya tombol kembali tidak membuka papan peringkat lagi
+  history.replaceState(null, "", location.pathname + location.search);
+  show("screen-home");
+}
+
+/* Menyalin tautan. Papan salin hanya tersedia pada konteks aman
+   (https atau localhost); saat dibuka lewat file:// biasanya ditolak,
+   sehingga tautannya disorot agar tetap bisa disalin manual. */
+async function copyRankLink() {
+  const field = $("#rank-link");
+  const note = $("#rank-note");
+  field.value = rankUrl();
+  field.focus();
+  field.select();
+  field.setSelectionRange(0, field.value.length);
+
+  let tersalin = false;
+  try {
+    await navigator.clipboard.writeText(field.value);
+    tersalin = true;
+  } catch (_) {
+    try { tersalin = document.execCommand("copy"); } catch (_) { tersalin = false; }
   }
-  box.innerHTML = `<h2>🏆 Peringkat 10 Besar ${escapeHtml(S.subject.nm)}</h2>${scores.map((score, i) =>
-    `<div class="rank-row"><span>${i + 1}.</span><strong>${escapeHtml(score.name)}</strong><small>${score.xp} XP · ${score.acc}% · ${DIFFICULTIES[score.difficulty]?.label || "Normal"}</small></div>`
-  ).join("")}`;
+
+  Sfx.init();
+  if (tersalin) Sfx.match(2); else Sfx.tap();
+  note.textContent = tersalin
+    ? "✅ Tautan sudah disalin. Tempelkan di browser mana pun pada perangkat ini."
+    : "Tautan sudah disorot. Tekan Ctrl+C, atau tahan lalu pilih Salin, untuk menyalinnya.";
+  note.classList.add("ok");
+}
+
+function routeFromHash() {
+  if (location.hash.toLowerCase() === RANK_HASH) openRankPage();
 }
 
 function openDifficulty(subj) {
@@ -1408,6 +1477,10 @@ function init() {
 
   $("#btn-materi").addEventListener("click", () => { Sfx.init(); renderMateri(); show("screen-materi"); });
   $("#btn-materi-back").addEventListener("click", () => show("screen-home"));
+  $("#btn-rank").addEventListener("click", () => { Sfx.init(); Sfx.tap(); openRankPage(); });
+  $("#btn-rank-back").addEventListener("click", closeRankPage);
+  $("#btn-rank-copy").addEventListener("click", copyRankLink);
+  addEventListener("hashchange", routeFromHash);
   $("#btn-materi-start").addEventListener("click", () => openDifficulty(S.subject));
   $("#btn-level-back").addEventListener("click", () => show("screen-home"));
   $$(".level-card").forEach((button) => button.addEventListener("click", () => {
@@ -1442,6 +1515,9 @@ function init() {
     if (/^[0-9]$/.test(e.key)) pressKey(e.key);
     if (e.key === "Backspace") pressKey("del");
   });
+
+  // dibuka lewat tautan #peringkat -> langsung ke papan peringkat
+  routeFromHash();
 }
 
 document.addEventListener("DOMContentLoaded", init);

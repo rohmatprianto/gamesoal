@@ -137,6 +137,41 @@ body{
 }
 .best-score{margin-top:6px;font-size:13px;color:var(--orange);font-weight:900}
 
+/* ---------- Papan peringkat ---------- */
+.rank-wrap{flex:1;overflow-y:auto;padding:18px 20px 28px;display:flex;flex-direction:column;align-items:center;gap:14px}
+.rank-list{width:100%;max-width:400px;display:flex;flex-direction:column;gap:12px}
+.rank-card{
+  border:2px solid var(--line);border-bottom-width:4px;border-radius:var(--r);
+  background:#fff;padding:12px 14px 6px;text-align:left
+}
+.rank-card.green{border-color:#bdeb90}
+.rank-card.blue{border-color:#aee3fb}
+.rank-card.purple{border-color:#e4c6ff}
+.rank-card.orange{border-color:#ffd49a}
+.rank-card h2{font-family:var(--font-fun);font-size:19px;margin:0 0 6px}
+.rank-card .rank-row:last-child{border-bottom:0}
+.rank-card .rank-empty{padding:4px 0 10px}
+
+.rank-share{
+  width:100%;max-width:400px;background:var(--panel);border:2px solid var(--line);
+  border-radius:var(--r);padding:12px 14px;text-align:left
+}
+.rank-share label{display:block;font-size:12px;font-weight:900;color:var(--ink-soft);margin-bottom:6px}
+.rank-share-row{display:flex;gap:8px;align-items:stretch}
+.rank-share input{
+  flex:1;min-width:0;border:2px solid var(--line);border-radius:12px;padding:10px 12px;
+  font:800 12.5px var(--font);color:var(--ink);background:#fff;outline:none;
+  /* body memakai user-select:none, tautan ini harus tetap bisa disorot manual */
+  user-select:text;-webkit-user-select:text
+}
+.rank-share input:focus{border-color:var(--blue)}
+.btn-copy{
+  width:auto;flex:none;font-size:13px;padding:10px 16px;border-radius:12px;
+  background:var(--blue);box-shadow:0 4px 0 var(--blue-dark)
+}
+.rank-note{margin:10px 0 0;font-size:11.5px;font-weight:800;line-height:1.5;color:var(--ink-soft)}
+.rank-note.ok{color:var(--green-dark)}
+
 /* ---------- Pemilih tingkat ---------- */
 .level-wrap,.name-wrap{flex:1;overflow-y:auto;padding:28px 24px;display:flex;flex-direction:column;align-items:center;text-align:center}
 .level-wrap{gap:13px;justify-content:center}
