@@ -5,6 +5,7 @@ rentetan jawaban benar, umpan balik instan, dan konfeti.
 
 | Pelajaran | Bank soal | Materi |
 |---|---|---|
+| ➕ Tambah & Kurang | 54 soal | Penjumlahan & pengurangan sampai 1.000 dengan regrup, soal cerita model batang |
 | 🔢 Matematika | 42 soal | Menghitung benda, nama bilangan, nilai tempat, bentuk panjang, membandingkan, mengurutkan, pola bilangan |
 | 📚 Bahasa Indonesia | 54 soal | Perasaan, memahami cerita, huruf kapital, kata tanya, kalimat, grafik, hidup sehat |
 | 🦅 Pancasila | 42 soal | Garuda, simbol & makna sila, menebak sila, pengamalan, kosakata |
@@ -29,6 +30,7 @@ python -m http.server 8080
 index.html                 kerangka layar: beranda, peringkat, tingkat, materi, kuis, nama, hasil
 css/style.css              tema warna, komponen, animasi
 js/questions.js            daftar pelajaran (buildSubjects) + bank Matematika
+js/questions-matematika2.js  bank Tambah & Kurang (Unit 2 dan Unit 3)
 js/questions-bindo.js      bank Bahasa Indonesia
 js/questions-pancasila.js  bank Pancasila
 js/questions-pai.js        bank Agama Islam
@@ -75,6 +77,9 @@ sebagai "Segera" dan belum bisa diketuk.
 - `{ kind: "pvtable", digits: [3,1,7] }` atau `{ kind: "pvtable", rows: [[6,2,3],[6,3,2]] }`
 - `{ kind: "chart", title, bars: [{ nm, v, ico }] }` — diagram batang
 - `{ kind: "story", title, lines: [...] }` — kartu bacaan untuk soal pemahaman
+- `{ kind: "bar", max, total, rows: [{ nm, parts: [{ v, label, c, ghost }] }] }` —
+  model batang untuk soal cerita; panjang tiap potong sebanding dengan nilainya,
+  dan potongan `ghost` digambar putus-putus sebagai bagian yang ditanyakan
 
 ### Contoh menambah soal
 

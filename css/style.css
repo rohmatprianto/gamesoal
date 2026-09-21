@@ -115,6 +115,8 @@ body{
 .subject.purple:active{box-shadow:0 0 0 var(--purple-dark)}
 .subject.orange{background:var(--orange);box-shadow:0 5px 0 #cc7800}
 .subject.orange:active{box-shadow:0 0 0 #cc7800}
+.subject.teal{background:#00cd9c;box-shadow:0 5px 0 #009d78}
+.subject.teal:active{box-shadow:0 0 0 #009d78}
 .subject-ico{
   width:48px;height:48px;flex:none;border-radius:14px;background:rgba(255,255,255,.25);
   display:grid;place-items:center;font-size:26px
@@ -148,6 +150,7 @@ body{
 .rank-card.blue{border-color:#aee3fb}
 .rank-card.purple{border-color:#e4c6ff}
 .rank-card.orange{border-color:#ffd49a}
+.rank-card.teal{border-color:#9ceddb}
 .rank-card h2{font-family:var(--font-fun);font-size:19px;margin:0 0 6px}
 .rank-card .rank-row:last-child{border-bottom:0}
 .rank-card .rank-empty{padding:4px 0 10px}
@@ -317,6 +320,37 @@ body{
   margin:0 0 5px;font-size:14px;font-weight:700;line-height:1.5;color:#5a4a2a
 }
 .story p:last-child{margin-bottom:0}
+
+/* ---------- Model batang untuk soal cerita ---------- */
+.barmodel{
+  background:var(--panel);border:2px solid var(--line);border-radius:var(--r);
+  padding:14px 14px 12px;display:flex;flex-direction:column;gap:9px
+}
+.bar-row{display:flex;align-items:center;gap:9px}
+.bar-name{
+  flex:none;width:62px;font-size:12px;font-weight:900;color:var(--ink-soft);
+  text-align:right;line-height:1.15
+}
+.bar-track{flex:1;display:flex;min-width:0;height:34px;gap:2px}
+.bar-part{
+  display:grid;place-items:center;min-width:0;border-radius:7px;
+  background:var(--blue);color:#fff;font-family:var(--font-fun);font-size:15px;
+  box-shadow:inset 0 -3px 0 rgba(0,0,0,.14);overflow:hidden
+}
+.bar-part span{padding:0 3px;white-space:nowrap}
+.bar-part.green{background:var(--green)}
+.bar-part.orange{background:var(--orange)}
+.bar-part.purple{background:var(--purple)}
+.bar-part.red{background:var(--red)}
+.bar-part.ghost{
+  background:#fff;border:2px dashed var(--blue);color:var(--blue-dark);
+  box-shadow:none
+}
+.bar-pad{flex:1;min-width:0}
+.bar-total{
+  margin-left:71px;border-top:2px solid var(--ink-soft);padding-top:3px;
+  text-align:center;font-family:var(--font-fun);font-size:16px;color:var(--ink-soft)
+}
 
 /* ---------- Tabel nilai tempat ---------- */
 .pv-table{

@@ -344,6 +344,27 @@ function renderVisual(v) {
     </div>`;
   }
 
+  /* Model batang untuk soal cerita. Panjang tiap potong sebanding
+     dengan nilainya, supaya anak melihat mana yang lebih banyak.
+     Potongan bertanda "ghost" adalah bagian yang ditanyakan. */
+  if (v.kind === "bar") {
+    const isi = (r) => r.parts.reduce((a, p) => a + p.v, 0);
+    const max = v.max || Math.max(...v.rows.map(isi));
+    return `<div class="barmodel">
+      ${v.rows.map((r) => `
+        <div class="bar-row">
+          ${r.nm ? `<span class="bar-name">${r.nm}</span>` : ""}
+          <span class="bar-track">
+            ${r.parts.map((p) =>
+              `<span class="bar-part ${p.ghost ? "ghost" : ""} ${p.c || ""}"
+                     style="flex:${p.v}"><span>${p.label}</span></span>`).join("")}
+            ${max > isi(r) ? `<span class="bar-pad" style="flex:${max - isi(r)}"></span>` : ""}
+          </span>
+        </div>`).join("")}
+      ${v.total ? `<div class="bar-total"><span>${v.total}</span></div>` : ""}
+    </div>`;
+  }
+
   if (v.kind === "chart") {
     const max = Math.max(...v.bars.map((b) => b.v));
     const warna = ["#1cb0f6", "#58cc02", "#ffc800", "#ce82ff", "#ff9600", "#ff4b4b"];

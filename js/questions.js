@@ -19,6 +19,15 @@ function buildSubjects() {
       materi: MATERI
     },
     {
+      id: "matematika2",
+      ico: "➕",
+      nm: "Tambah & Kurang",
+      ds: "Penjumlahan, pengurangan, dan soal cerita",
+      warna: "teal",
+      bank: SOAL_MTK2,
+      materi: MATERI_MTK2
+    },
+    {
       id: "bindo",
       ico: "📚",
       nm: "Bahasa Indonesia",
