@@ -24,6 +24,8 @@ function buildSubjects() {
       nm: "Tambah & Kurang",
       ds: "Penjumlahan, pengurangan, dan soal cerita",
       warna: "teal",
+      // soal hitung bersusun perlu waktu lebih panjang daripada pilihan ganda
+      waktu: { easy: 120, normal: 60, hard: 40 },
       bank: SOAL_MTK2,
       materi: MATERI_MTK2
     },

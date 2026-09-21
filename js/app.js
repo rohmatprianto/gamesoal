@@ -199,6 +199,29 @@ const DIFFICULTIES = {
   hard:   { label: "Hard", hearts: 5, time: 20 }
 };
 
+/* Waktu bawaan di atas berlaku untuk semua pelajaran, kecuali kalau
+   pelajarannya menyebut waktunya sendiri lewat kunci "waktu".
+   Dipakai misalnya pada soal hitung bersusun yang butuh waktu
+   mengerjakan lebih panjang daripada soal pilihan ganda. */
+function levelTime(level, subj) {
+  const s = subj || S.subject;
+  return (s && s.waktu && s.waktu[level]) || DIFFICULTIES[level].time;
+}
+
+/* "120 detik" lebih enak dibaca sebagai "2 menit" */
+function labelWaktu(detik) {
+  if (detik >= 60 && detik % 60 === 0) return (detik / 60) + " menit";
+  if (detik > 60) return Math.floor(detik / 60) + " menit " + (detik % 60) + " detik";
+  return detik + " detik";
+}
+
+/* Hitungan mundur ditulis m:ss bila soalnya diberi waktu satu menit
+   atau lebih, dan angka detik saja bila kurang dari itu. */
+function labelHitungMundur(detik, totalDetik) {
+  if (totalDetik < 60) return String(detik);
+  return Math.floor(detik / 60) + ":" + String(detik % 60).padStart(2, "0");
+}
+
 /* Klasifikasi awal bank soal. Soal pada tingkat terpilih selalu diutamakan;
    bila jumlahnya belum 20, soal tingkat terdekat dipakai sebagai pelengkap. */
 function questionDifficulty(q) {
@@ -445,7 +468,7 @@ function renderQuestion() {
    denyut, supaya tetap tepat walau browser menunda pencacahnya.
    ------------------------------------------------------------ */
 const Timer = { id: null, deadline: 0, beep: 0 };
-const questionTime = () => DIFFICULTIES[S.difficulty].time;
+const questionTime = () => levelTime(S.difficulty);
 
 function startTimer() {
   stopTimer();
@@ -481,7 +504,7 @@ function paintTimer(sisa) {
   const chip = $("#q-timer");
 
   bar.style.width = persen + "%";
-  chip.textContent = detik;
+  chip.textContent = labelHitungMundur(detik, questionTime());
 
   const tingkat = detik <= 10 ? "danger" : detik <= 20 ? "warn" : "";
   bar.className = "timer-fill " + tingkat;
@@ -1243,6 +1266,15 @@ function openDifficulty(subj) {
   S.subject = subj || S.subject || SUBJECTS[0];
   $("#mascot-level").innerHTML = mascotSVG("happy");
   $("#level-subject").textContent = `${S.subject.ico} ${S.subject.nm}: pilih tantanganmu`;
+
+  // keterangan nyawa dan waktu ditulis ulang, karena tiap pelajaran
+  // boleh memakai waktu pengerjaan yang berbeda
+  $$(".level-card").forEach((card) => {
+    const lv = card.dataset.level;
+    card.querySelector("small").textContent =
+      `${DIFFICULTIES[lv].hearts} nyawa · ${labelWaktu(levelTime(lv))} per soal`;
+  });
+
   show("screen-level");
 }
 

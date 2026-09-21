@@ -42,6 +42,12 @@ js/app.js                  mesin permainan: render, penilaian, nyawa, XP, konfet
 pada `js/questions.js`. Pelajaran yang banknya masih kosong otomatis tampil
 sebagai "Segera" dan belum bisa diketuk.
 
+**Waktu pengerjaan per pelajaran:** secara bawaan semua pelajaran memakai
+waktu dari `DIFFICULTIES` di `js/app.js`. Satu pelajaran boleh memakai waktu
+sendiri dengan menambahkan kunci `waktu` pada objeknya di `buildSubjects()`,
+misalnya `waktu: { easy: 120, normal: 60, hard: 40 }` (dalam detik). Keterangan
+di layar pilih tingkat ikut menyesuaikan sendiri.
+
 ## Aturan main
 
 | Hal | Nilai |
@@ -50,6 +56,7 @@ sebagai "Segera" dan belum bisa diketuk.
 | Tingkat Easy | 10 nyawa, 60 detik per soal |
 | Tingkat Normal | 5 nyawa, 40 detik per soal |
 | Tingkat Hard | 5 nyawa, 20 detik per soal |
+| Waktu khusus Tambah & Kurang | Easy 2 menit, Normal 1 menit, Hard 40 detik |
 | XP | 10 + bonus rentetan (maks +5) untuk jawaban benar pertama kali, 5 untuk soal ulangan |
 | Soal salah | otomatis diulang di akhir sesi, satu kali |
 | Pemilihan soal | satu soal per materi dijamin ikut, sisanya diundi |
