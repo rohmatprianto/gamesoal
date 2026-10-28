@@ -665,3 +665,13 @@ body{
 /* ---------- Layar sub-pelajaran ---------- */
 .topic-wrap{justify-content:flex-start}
 .topic-wrap .subject-list{max-width:340px}
+
+/* ---------- Pelajaran besar di halaman awal: 2 kolom ---------- */
+#subject-list{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+#subject-list .subject{
+  flex-direction:column;align-items:center;text-align:center;gap:8px;padding:16px 10px 14px
+}
+#subject-list .subject-ico{width:56px;height:56px;font-size:30px}
+#subject-list .subject-txt{align-items:center}
+#subject-list .subject-nm{font-size:18px}
+#subject-list .subject-ds,#subject-list .subject-go{display:none}
