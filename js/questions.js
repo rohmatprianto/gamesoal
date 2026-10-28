@@ -59,12 +59,8 @@ function buildSubjects() {
           ico: "🏫",
           nm: "Nama Tempat & Tanda Seru",
           ds: "Ciri dan fungsi ruangan, awalan di- dan kata depan di, kalimat larangan, perintah, ajakan",
-          bank: [],
-          materi: [
-            { ico: "🏫", nm: "Nama Tempat", ds: "Ciri ruangan dan fungsinya" },
-            { ico: "🔤", nm: "Awalan di- dan Kata Depan di", ds: "Ditulis serangkai atau dipisah" },
-            { ico: "❗", nm: "Tanda Seru", ds: "Kalimat larangan, kalimat perintah, kalimat ajakan" }
-          ]
+          bank: SOAL_BINDO2,
+          materi: MATERI_BINDO2
         }
       ]
     },

@@ -569,9 +569,9 @@ function revealAnswer(q) {
   }
 
   if (q.type === "mcq") {
-    $$("#q-stage .opt").forEach((b, i) => {
+    $$("#q-stage .opt").forEach((b) => {
       b.classList.remove("sel");
-      b.classList.add(i === q.answer ? "ok" : "dim");
+      b.classList.add(+b.dataset.i === q.answer ? "ok" : "dim");
     });
   }
 
@@ -678,8 +678,10 @@ function refreshFillState() {
 
 /* ---------- tipe: mcq ---------- */
 function renderMcq(stage, q) {
-  const opts = q.options.map((o, i) =>
-    `<button class="opt" data-i="${i}">${o}</button>`).join("");
+  // bank soal menulis jawaban benar di urutan pertama, jadi tampilannya diacak;
+  // data-i tetap menyimpan indeks asli supaya q.answer tidak berubah
+  const opts = shuffle(q.options.map((_, i) => i)).map((i) =>
+    `<button class="opt" data-i="${i}">${q.options[i]}</button>`).join("");
   stage.innerHTML = `
     ${renderVisual(q.visual)}
     <div class="opts ${q.grid ? "grid2" : ""}">${opts}</div>
@@ -934,7 +936,8 @@ function checkAnswer() {
 
   if (q.type === "mcq") {
     ok = S.answer === q.answer;
-    $$("#q-stage .opt").forEach((b, i) => {
+    $$("#q-stage .opt").forEach((b) => {
+      const i = +b.dataset.i;
       b.classList.remove("sel");
       if (i === q.answer) b.classList.add("ok");
       else if (i === S.answer) b.classList.add("no");
