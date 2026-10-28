@@ -1,60 +1,106 @@
 /* ============================================================
    DAFTAR PELAJARAN + BANK SOAL MATEMATIKA
 
-   Bagian atas berisi daftar pelajaran yang tampil di halaman
-   awal. Menambah pelajaran baru cukup menambah satu objek di
-   buildSubjects(), lalu memuat berkas banknya di index.html.
-   Pelajaran yang banknya masih kosong otomatis tampil sebagai
+   Halaman awal hanya menampilkan pelajaran besar. Mengetuk satu
+   pelajaran membuka daftar sub-pelajarannya ("sub"); setiap
+   sub-pelajaran punya bank soal dan papan peringkatnya sendiri.
+
+   Menambah sub-pelajaran baru cukup menambah satu objek di "sub"
+   pelajaran yang sesuai, lalu memuat berkas banknya di index.html.
+   Sub-pelajaran yang banknya masih kosong otomatis tampil sebagai
    "Segera" dan belum bisa diketuk.
    ============================================================ */
 function buildSubjects() {
   return [
     {
-      id: "matematika",
+      id: "grup-matematika",
       ico: "🔢",
       nm: "Matematika",
-      ds: "Bilangan Cacah sampai dengan 1.000",
+      ds: "Bilangan cacah, penjumlahan, dan pengurangan",
       warna: "green",
-      bank: QUESTIONS,
-      materi: MATERI
+      sub: [
+        {
+          id: "matematika",
+          ico: "🔢",
+          nm: "Bilangan Cacah",
+          ds: "Bilangan cacah sampai dengan 1.000",
+          bank: QUESTIONS,
+          materi: MATERI
+        },
+        {
+          id: "matematika2",
+          ico: "➕",
+          nm: "Penjumlahan & Pengurangan",
+          ds: "Hitung bersusun, regrup, dan soal cerita",
+          // soal hitung bersusun perlu waktu lebih panjang daripada pilihan ganda
+          waktu: { easy: 120, normal: 60, hard: 40 },
+          bank: SOAL_MTK2,
+          materi: MATERI_MTK2
+        }
+      ]
     },
     {
-      id: "matematika2",
-      ico: "➕",
-      nm: "Tambah & Kurang",
-      ds: "Penjumlahan, pengurangan, dan soal cerita",
-      warna: "teal",
-      // soal hitung bersusun perlu waktu lebih panjang daripada pilihan ganda
-      waktu: { easy: 120, normal: 60, hard: 40 },
-      bank: SOAL_MTK2,
-      materi: MATERI_MTK2
-    },
-    {
-      id: "bindo",
+      id: "grup-bindo",
       ico: "📚",
       nm: "Bahasa Indonesia",
-      ds: "Kalimat, kata tanya, perasaan, dan hidup sehat",
+      ds: "Kalimat, kata tanya, nama tempat, dan tanda seru",
       warna: "blue",
-      bank: SOAL_BINDO,
-      materi: MATERI_BINDO
+      sub: [
+        {
+          id: "bindo",
+          ico: "❓",
+          nm: "Kalimat & Kata Tanya",
+          ds: "Perasaan, huruf kapital, kata tanya, SPO, cerita, grafik",
+          bank: SOAL_BINDO,
+          materi: MATERI_BINDO
+        },
+        {
+          id: "bindo2",
+          ico: "🏫",
+          nm: "Nama Tempat & Tanda Seru",
+          ds: "Ciri dan fungsi ruangan, awalan di- dan kata depan di, kalimat larangan, perintah, ajakan",
+          bank: [],
+          materi: [
+            { ico: "🏫", nm: "Nama Tempat", ds: "Ciri ruangan dan fungsinya" },
+            { ico: "🔤", nm: "Awalan di- dan Kata Depan di", ds: "Ditulis serangkai atau dipisah" },
+            { ico: "❗", nm: "Tanda Seru", ds: "Kalimat larangan, kalimat perintah, kalimat ajakan" }
+          ]
+        }
+      ]
     },
     {
-      id: "pancasila",
+      id: "grup-pancasila",
       ico: "🦅",
       nm: "Pancasila",
       ds: "Simbol, sila, aturan, dan hidup rukun",
       warna: "purple",
-      bank: SOAL_PANCASILA,
-      materi: MATERI_PANCASILA
+      sub: [
+        {
+          id: "pancasila",
+          ico: "🦅",
+          nm: "Garuda di Dadaku",
+          ds: "Simbol, sila, aturan, dan hidup rukun",
+          bank: SOAL_PANCASILA,
+          materi: MATERI_PANCASILA
+        }
+      ]
     },
     {
-      id: "pai",
+      id: "grup-pai",
       ico: "🕌",
       nm: "Agama Islam",
       ds: "Asmaulhusna, zikir, dan akhlak mulia",
       warna: "orange",
-      bank: SOAL_PAI,
-      materi: MATERI_PAI
+      sub: [
+        {
+          id: "pai",
+          ico: "🕌",
+          nm: "Mengenal Asmaulhusna",
+          ds: "Asmaulhusna, zikir, dan akhlak mulia",
+          bank: SOAL_PAI,
+          materi: MATERI_PAI
+        }
+      ]
     }
   ];
 }

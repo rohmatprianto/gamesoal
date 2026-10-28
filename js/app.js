@@ -1,5 +1,5 @@
 /* ============================================================
-   Petualangan Bilangan — mesin permainan
+   Latihan Game Soal — mesin permainan
    Alur: beranda -> pilih tingkat -> kuis (20 soal) -> nama -> layar hasil.
    Soal yang salah dimasukkan kembali ke antrean satu kali,
    supaya anak berlatih ulang seperti di aplikasi bahasa.
@@ -191,7 +191,8 @@ function mascotSVG(mood = "happy") {
    ------------------------------------------------------------ */
 let BANK = QUESTIONS;            // bank soal pelajaran yang sedang dimainkan
 let TOTAL = BANK.length;         // jumlah soal pada sesi yang sedang berjalan
-let SUBJECTS = [];               // daftar pelajaran di halaman awal
+let GROUPS = [];                 // pelajaran besar di halaman awal
+let SUBJECTS = [];               // semua sub-pelajaran yang bisa dimainkan
 const PER_SESSION = 20;          // soal per sesi; bank yang lebih besar diacak
 const DIFFICULTIES = {
   easy:   { label: "Easy", hearts: 10, time: 60 },
@@ -300,7 +301,8 @@ function pickSessionForDifficulty(bank, difficulty) {
 }
 
 const S = {
-  subject: null,    // pelajaran yang sedang dimainkan
+  group: null,      // pelajaran besar yang sedang dibuka
+  subject: null,    // sub-pelajaran yang sedang dimainkan
   difficulty: "easy",
   queue: [],        // indeks soal yang belum tuntas
   q: null,          // soal aktif
@@ -1112,7 +1114,7 @@ function finish(won) {
 
   S.result = { won, acc, stars, xp: S.xp, combo: S.maxCombo };
   $("#mascot-name").innerHTML = mascotSVG(won ? "happy" : "sad");
-  $("#name-subject").textContent = S.subject.nm;
+  $("#name-subject").textContent = fullName(S.subject);
   $("#player-name").value = "";
   renderLeaderboard();
   show("screen-name");
@@ -1191,7 +1193,7 @@ function rankRows(scores) {
 function renderLeaderboard(target = "#leaderboard") {
   const scores = getLeaderboard();
   $(target).innerHTML = scores.length
-    ? `<h2>🏆 Peringkat 10 Besar ${escapeHtml(S.subject.nm)}</h2>${rankRows(scores)}`
+    ? `<h2>🏆 Peringkat 10 Besar ${escapeHtml(fullName(S.subject))}</h2>${rankRows(scores)}`
     : '<h2>🏆 Peringkat 10 Besar</h2><p class="rank-empty">Jadilah pemain pertama di daftar ini!</p>';
 }
 
@@ -1207,10 +1209,11 @@ function rankUrl() {
 }
 
 function renderRankPage() {
-  $("#rank-list").innerHTML = SUBJECTS.map((subj) => {
+  // sub-pelajaran yang soalnya belum ada tidak perlu kartu peringkat
+  $("#rank-list").innerHTML = SUBJECTS.filter((subj) => subj.bank && subj.bank.length).map((subj) => {
     const scores = getLeaderboard(subj.id);
     return `<section class="rank-card ${subj.warna || "green"}">
-      <h2>${subj.ico} ${escapeHtml(subj.nm)}</h2>
+      <h2>${subj.ico} ${escapeHtml(fullName(subj))}</h2>
       ${scores.length
         ? rankRows(scores)
         : '<p class="rank-empty">Belum ada yang masuk peringkat. Ayo jadi yang pertama!</p>'}
@@ -1265,7 +1268,7 @@ function routeFromHash() {
 function openDifficulty(subj) {
   S.subject = subj || S.subject || SUBJECTS[0];
   $("#mascot-level").innerHTML = mascotSVG("happy");
-  $("#level-subject").textContent = `${S.subject.ico} ${S.subject.nm}: pilih tantanganmu`;
+  $("#level-subject").textContent = `${S.subject.ico} ${fullName(S.subject)}: pilih tantanganmu`;
 
   // keterangan nyawa dan waktu ditulis ulang, karena tiap pelajaran
   // boleh memakai waktu pengerjaan yang berbeda
@@ -1463,39 +1466,80 @@ const Confetti = {
 };
 
 /* ------------------------------------------------------------
-   PEMILIH PELAJARAN DI HALAMAN AWAL
-   Pelajaran yang bank soalnya masih kosong tampil sebagai
-   "Segera" dan belum bisa diketuk.
+   PEMILIH PELAJARAN
+   Halaman awal hanya berisi pelajaran besar. Mengetuknya membuka
+   layar sub-pelajaran; sub-pelajaran yang bank soalnya masih
+   kosong tampil sebagai "Segera" dan belum bisa diketuk.
    ------------------------------------------------------------ */
-function renderSubjects() {
-  const box = $("#subject-list");
+function isReady(s) {
+  return !!(s.bank && s.bank.length);
+}
 
-  box.innerHTML = SUBJECTS.map((s, i) => {
-    const n = s.bank ? s.bank.length : 0;
-    const siap = n > 0;
-    const kelas = !siap ? "Sedang disiapkan"
-      : n > PER_SESSION ? `${PER_SESSION} soal acak dari ${n} soal`
-      : `${n} soal · Kelas 2 SD`;
-    return `
+/* nama yang ditampilkan di tingkat, hasil, dan peringkat */
+function fullName(s) {
+  return s.grup ? `${s.grup.nm} · ${s.nm}` : s.nm;
+}
+
+/* menyalin sub-pelajaran ke daftar datar SUBJECTS; warnanya ikut pelajaran besar */
+function flattenSubjects(groups) {
+  return groups.flatMap((g) => g.sub.map((s) => {
+    s.grup = g;
+    s.warna = s.warna || g.warna;
+    return s;
+  }));
+}
+
+function subjectButton(s, i, meta, siap) {
+  return `
       <button class="subject ${s.warna || "green"} ${siap ? "" : "soon"}" data-i="${i}"
               ${siap ? "" : "disabled"}>
         <span class="subject-ico">${s.ico}</span>
         <span class="subject-txt">
           <span class="subject-nm">${s.nm}</span>
           <span class="subject-ds">${s.ds}</span>
-          <span class="subject-meta">${kelas}</span>
+          <span class="subject-meta">${meta}</span>
         </span>
         <span class="subject-go">${siap ? "➜" : "Segera"}</span>
       </button>`;
+}
+
+function renderSubjects() {
+  const box = $("#subject-list");
+
+  box.innerHTML = GROUPS.map((g, i) => {
+    const siap = g.sub.filter(isReady).length;
+    const meta = siap ? `${g.sub.length} materi pelajaran` : "Sedang disiapkan";
+    return subjectButton(g, i, meta, siap > 0);
   }).join("");
 
   $$("#subject-list .subject").forEach((b) => b.addEventListener("click", () => {
-    const s = SUBJECTS[+b.dataset.i];
-    if (!s.bank || !s.bank.length) return;
+    Sfx.init();
+    Sfx.tap();
+    openTopic(GROUPS[+b.dataset.i]);
+  }));
+}
+
+function openTopic(g) {
+  S.group = g || S.group || GROUPS[0];
+  $("#topic-title").textContent = `${S.group.ico} ${S.group.nm}`;
+
+  $("#topic-list").innerHTML = S.group.sub.map((s, i) => {
+    const n = s.bank ? s.bank.length : 0;
+    const meta = !n ? "Sedang disiapkan"
+      : n > PER_SESSION ? `${PER_SESSION} soal acak dari ${n} soal`
+      : `${n} soal · Kelas 2 SD`;
+    return subjectButton(s, i, meta, n > 0);
+  }).join("");
+
+  $$("#topic-list .subject").forEach((b) => b.addEventListener("click", () => {
+    const s = S.group.sub[+b.dataset.i];
+    if (!isReady(s)) return;
     Sfx.init();
     Sfx.tap();
     openDifficulty(s);
   }));
+
+  show("screen-topic");
 }
 
 /* ------------------------------------------------------------
@@ -1515,8 +1559,10 @@ function renderMateri() {
    PEMASANGAN AWAL
    ------------------------------------------------------------ */
 function init() {
-  SUBJECTS = buildSubjects();
-  S.subject = SUBJECTS.find((s) => s.bank && s.bank.length) || SUBJECTS[0];
+  GROUPS = buildSubjects();
+  SUBJECTS = flattenSubjects(GROUPS);
+  S.subject = SUBJECTS.find(isReady) || SUBJECTS[0];
+  S.group = S.subject.grup;
   $("#mascot-home").innerHTML = mascotSVG("happy");
   renderSubjects();
   renderMateri();
@@ -1529,13 +1575,14 @@ function init() {
   }
 
   $("#btn-materi").addEventListener("click", () => { Sfx.init(); renderMateri(); show("screen-materi"); });
-  $("#btn-materi-back").addEventListener("click", () => show("screen-home"));
+  $("#btn-materi-back").addEventListener("click", () => show("screen-level"));
+  $("#btn-topic-back").addEventListener("click", () => show("screen-home"));
   $("#btn-rank").addEventListener("click", () => { Sfx.init(); Sfx.tap(); openRankPage(); });
   $("#btn-rank-back").addEventListener("click", closeRankPage);
   $("#btn-rank-copy").addEventListener("click", copyRankLink);
   addEventListener("hashchange", routeFromHash);
   $("#btn-materi-start").addEventListener("click", () => openDifficulty(S.subject));
-  $("#btn-level-back").addEventListener("click", () => show("screen-home"));
+  $("#btn-level-back").addEventListener("click", () => openTopic(S.subject.grup));
   $$(".level-card").forEach((button) => button.addEventListener("click", () => {
     Sfx.init();
     Sfx.tap();

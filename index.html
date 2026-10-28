@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#58cc02">
-<title>Petualangan Bilangan - Matematika Kelas 2</title>
+<title>Latihan Game Soal - Kelas 2 SD</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet">
@@ -20,7 +20,7 @@
       <div id="mascot-home"></div>
       <div class="speech">Halo! Ayo main bersamaku!</div>
     </div>
-    <h1 class="app-title">Petualangan<br><span>Bilangan</span></h1>
+    <h1 class="app-title">Latihan<br><span>Game Soal</span></h1>
     <p class="app-sub">Belajar sambil bermain &middot; Kelas 2 SD</p>
 
     <div class="chip-row">
@@ -32,12 +32,23 @@
     <div class="subject-label">Pilih Pelajaran</div>
     <div class="subject-list" id="subject-list"></div>
 
-    <button class="btn btn-ghost" id="btn-materi">Lihat Materi</button>
     <button class="btn btn-ghost" id="btn-rank">🏆 Papan Peringkat</button>
 
     <div class="best-score" id="best-score" hidden></div>
    </div>
   </div>
+</section>
+
+<!-- ============ PILIH SUB-PELAJARAN ============ -->
+<section id="screen-topic" class="screen">
+  <header class="topbar simple">
+    <button class="icon-btn" id="btn-topic-back" aria-label="Kembali">&#10005;</button>
+    <h2 class="topbar-title" id="topic-title">Pilih Materi</h2>
+  </header>
+  <main class="level-wrap topic-wrap">
+    <p class="level-sub" id="topic-sub">Pilih materi yang ingin dilatih</p>
+    <div class="subject-list" id="topic-list"></div>
+  </main>
 </section>
 
 <!-- ============ PILIH TINGKAT ============ -->
@@ -59,6 +70,7 @@
       <span class="level-ico">&#128293;</span><span><b>Hard</b><small>5 nyawa &middot; 20 detik per soal</small></span><span>›</span>
     </button>
     <p class="level-note">Soal yang sesuai tingkat diprioritaskan. Satu sesi berisi 20 soal.</p>
+    <button class="btn btn-ghost" id="btn-materi">📖 Lihat Materi</button>
   </main>
 </section>
 

@@ -661,3 +661,7 @@ body{
   .cnum{font-size:30px;min-width:88px;padding:10px 12px}
   .sym{width:74px}
 }
+
+/* ---------- Layar sub-pelajaran ---------- */
+.topic-wrap{justify-content:flex-start}
+.topic-wrap .subject-list{max-width:340px}

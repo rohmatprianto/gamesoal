@@ -1,4 +1,4 @@
-# Petualangan Bilangan 🦉
+# Latihan Game Soal 🦉
 
 Aplikasi latihan soal untuk **Kelas 2 SD**, dikemas seperti Duolingo: nyawa, XP,
 rentetan jawaban benar, umpan balik instan, dan konfeti.
