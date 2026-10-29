@@ -675,3 +675,31 @@ body{
 #subject-list .subject-txt{align-items:center}
 #subject-list .subject-nm{font-size:18px}
 #subject-list .subject-ds,#subject-list .subject-go{display:none}
+
+/* ---------- Perkalian: kelompok dan barisan ---------- */
+.groups{
+  display:flex;flex-wrap:wrap;gap:8px;justify-content:center;
+  background:var(--panel);border:2px solid var(--line);border-radius:var(--r);padding:14px 8px
+}
+.grp{
+  display:flex;flex-wrap:wrap;justify-content:center;align-content:center;gap:2px;
+  min-width:48px;max-width:80px;min-height:48px;padding:7px;
+  border:2.5px dashed var(--blue);border-radius:16px;background:var(--blue-soft);
+  font-size:18px;line-height:1;animation:pop .3s backwards
+}
+.grp.piring{border-radius:999px;border-style:solid;border-color:#d9d9d9;background:#fff;padding:10px}
+.grp.kotak{border-radius:8px;border-style:solid;border-color:var(--orange);background:#fff4e0}
+.arr{
+  display:grid;gap:6px 8px;justify-content:center;
+  background:var(--panel);border:2px solid var(--line);border-radius:var(--r);
+  padding:14px;font-size:24px;line-height:1
+}
+.arr span{animation:pop .3s backwards}
+
+/* isian bertingkat: "Ada [ ] kantong." lalu "[ ] × [ ] = [ ]" di baris berikutnya */
+.slots .slot-br{flex-basis:100%;height:0}
+.slots.rows{gap:6px 8px}
+.slots.rows .slot{min-width:56px;height:50px;font-size:22px}
+.plain.word{font-family:var(--font);font-size:18px;font-weight:800;color:var(--ink)}
+.groups.one-row{display:grid;justify-content:center}
+.groups.one-row .grp{min-width:0;max-width:none}

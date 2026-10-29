@@ -16,7 +16,7 @@ function buildSubjects() {
       id: "grup-matematika",
       ico: "🔢",
       nm: "Matematika",
-      ds: "Bilangan cacah, penjumlahan, dan pengurangan",
+      ds: "Bilangan cacah, penjumlahan, pengurangan, perkalian",
       warna: "green",
       sub: [
         {
@@ -36,6 +36,16 @@ function buildSubjects() {
           waktu: { easy: 120, normal: 60, hard: 40 },
           bank: SOAL_MTK2,
           materi: MATERI_MTK2
+        },
+        {
+          id: "matematika3",
+          ico: "✖️",
+          nm: "Perkalian",
+          ds: "Kelompok dan barisan sama banyak, cerita perkalian",
+          // isian bertingkat perlu waktu lebih panjang daripada pilihan ganda
+          waktu: { easy: 120, normal: 90, hard: 60 },
+          bank: SOAL_MTK3,
+          materi: MATERI_MTK3
         }
       ]
     },

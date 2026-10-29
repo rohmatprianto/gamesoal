@@ -407,6 +407,27 @@ function renderVisual(v) {
     </div>`;
   }
 
+  /* Kelompok sama banyak untuk perkalian: tiap wadah (piring,
+     kantong, kotak) berisi sejumlah benda. "isi" boleh tidak sama
+     untuk soal yang menanyakan apakah kelompoknya sama banyak. */
+  if (v.kind === "groups") {
+    // sampai 4 wadah dibuat satu baris, supaya kelompoknya mudah dihitung
+    const kolom = v.isi.length <= 4 ? `style="grid-template-columns:repeat(${v.isi.length},minmax(0,80px))"` : "";
+    return `<div class="groups ${kolom ? "one-row" : ""}" ${kolom}>
+      ${v.isi.map((n, g) => `
+        <div class="grp ${v.wadah || ""}" style="animation-delay:${g * 0.08}s">
+          ${Array.from({ length: n }, () => `<span>${v.ico}</span>`).join("")}
+        </div>`).join("")}
+    </div>`;
+  }
+
+  /* Barisan sama banyak: rows baris, masing-masing berisi cols benda */
+  if (v.kind === "array") {
+    const isi = Array.from({ length: v.rows * v.cols }, (_, i) =>
+      `<span style="animation-delay:${i * 0.02}s">${v.ico}</span>`).join("");
+    return `<div class="arr" style="grid-template-columns:repeat(${v.cols},auto)">${isi}</div>`;
+  }
+
   if (v.kind === "pvtable") {
     const rows = v.rows || [v.digits];
     const body = rows.map((r) => `<tr>${r.map((d) => `<td>${d}</td>`).join("")}</tr>`).join("");
@@ -602,6 +623,8 @@ function revealAnswer(q) {
 function renderFill(stage, q) {
   const parts = q.layout.map((p, i) => {
     if (p.t === "text") return `<span class="plain">${p.v}</span>`;
+    if (p.t === "word") return `<span class="plain word">${p.v}</span>`;
+    if (p.t === "br") return '<span class="slot-br"></span>';
     if (p.t === "cell") return `<span class="pcell">${p.v}</span>`;
     const box = `<div class="slot" data-slot="${i}" data-ans="${p.ans}" data-max="${p.max}"></div>`;
     return p.label
@@ -609,7 +632,8 @@ function renderFill(stage, q) {
       : box;
   }).join("");
 
-  const wrapClass = q.layout.some((p) => p.t === "cell") ? "pattern" : "slots";
+  const wrapClass = q.layout.some((p) => p.t === "cell") ? "pattern"
+    : q.layout.some((p) => p.t === "br") ? "slots rows" : "slots";
   stage.innerHTML = `
     ${renderVisual(q.visual)}
     <div class="${wrapClass}">${parts}</div>
